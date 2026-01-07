@@ -1,22 +1,15 @@
 {
+    "version": 2,
     "builds": [
         {
             "src": "backend/main.py",
             "use": "@vercel/python"
-        },
-        {
-            "src": "**/*.{html,css,js,png,jpg,jpeg,gif,ico,svg}",
-            "use": "@vercel/static"
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/api/(.*)",
-            "dest": "/backend/main.py"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/$1"
+            "source": "/api/:path*",
+            "destination": "/backend/main.py"
         }
     ]
 }
