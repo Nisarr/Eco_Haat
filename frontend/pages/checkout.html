@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Eco Haat</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .checkout-page {
+            padding-top: 100px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--space-2xl);
+            align-items: start;
+        }
+
+        .checkout-form {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+            padding: var(--space-2xl);
+        }
+
+        .checkout-form__section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .checkout-form__title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid var(--primary-pale);
+        }
+
+        .checkout-form__title span {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-forest);
+            color: white;
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Order Summary Sidebar */
+        .order-summary {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+            padding: var(--space-xl);
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-summary__title {
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .order-summary__item {
+            display: flex;
+            gap: var(--space-md);
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .order-summary__item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .order-summary__item-info {
+            flex: 1;
+        }
+
+        .order-summary__item-name {
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .order-summary__item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .order-summary__item-price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .order-summary__row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+        }
+
+        .order-summary__total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding-top: var(--space-md);
+            border-top: 2px solid var(--border-light);
+            margin-top: var(--space-md);
+        }
+
+        .order-summary__eco {
+            background: var(--primary-pale);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-top: var(--space-lg);
+            font-size: 0.875rem;
+            color: var(--primary-dark);
+        }
+
+        /* Success State */
+        .checkout-success {
+            text-align: center;
+            padding: var(--space-3xl);
+        }
+
+        .checkout-success__icon {
+            font-size: 5rem;
+            margin-bottom: var(--space-lg);
+            animation: bounceIn 0.6s ease;
+        }
+
+        .checkout-success__title {
+            color: var(--primary);
+            margin-bottom: var(--space-md);
+        }
+
+        @media (max-width: 992px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__logo">
+                <img src="../assets/images/logo.png" alt="Eco Haat" class="navbar__logo-img">
+            </a>
+
+            <ul class="navbar__nav">
+                <li><a href="cart.html" class="navbar__link">← Back to Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="checkout-page">
+        <div class="container">
+            <h1 class="page-title" style="margin-bottom: var(--space-xl);">Checkout</h1>
+
+            <div class="checkout-container" id="checkoutContainer">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <!-- Shipping Information -->
+                        <div class="checkout-form__section">
+                            <h3 class="checkout-form__title">
+                                <span>1</span>
+                                Shipping Information
+                            </h3>
+
+                            <div class="form-group">
+                                <label class="form-label" for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" class="form-input" placeholder="+880 1XXX-XXXXXX" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="address">Shipping Address *</label>
+                                <textarea id="address" class="form-input form-textarea" rows="3"
+                                    placeholder="House/Flat No, Street, Area, City" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="notes">Order Notes (Optional)</label>
+                                <textarea id="notes" class="form-input form-textarea" rows="2"
+                                    placeholder="Any special instructions for delivery..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="checkout-form__section">
+                            <h3 class="checkout-form__title">
+                                <span>2</span>
+                                Payment Method
+                            </h3>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-lg); background: var(--bg-secondary); border-radius: var(--radius-md); cursor: pointer;">
+                                    <input type="radio" name="payment" value="cod" checked
+                                        style="width: 20px; height: 20px;">
+                                    <div>
+                                        <div style="font-weight: 600;">💵 Cash on Delivery</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Pay when your order
+                                            arrives</div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-lg); background: var(--bg-secondary); border-radius: var(--radius-md); cursor: pointer; opacity: 0.6;">
+                                    <input type="radio" name="payment" value="online" disabled
+                                        style="width: 20px; height: 20px;">
+                                    <div>
+                                        <div style="font-weight: 600;">💳 Online Payment</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Coming soon</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="placeOrderBtn">
+                            🌿 Place Order
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 class="order-summary__title">Order Summary</h3>
+
+                    <div id="orderItems">
+                        <div class="text-center" style="padding: 2rem;">
+                            <div class="spinner" style="margin: 0 auto;"></div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary__row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">৳0</span>
+                    </div>
+                    <div class="order-summary__row">
+                        <span>Shipping</span>
+                        <span style="color: var(--primary);">Free</span>
+                    </div>
+                    <div class="order-summary__row order-summary__total">
+                        <span>Total</span>
+                        <span id="total">৳0</span>
+                    </div>
+
+                    <div class="order-summary__eco">
+                        🌱 Your order is 100% eco-friendly and plastic-free!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success State (hidden initially) -->
+            <div class="checkout-success" id="successState" style="display: none;">
+                <div class="checkout-success__icon">🎉</div>
+                <h2 class="checkout-success__title">Order Placed Successfully!</h2>
+                <p style="color: var(--text-muted); margin-bottom: var(--space-xl);">
+                    Thank you for shopping eco-friendly! Your order has been confirmed
+                    and will be delivered soon.
+                </p>
+                <p style="margin-bottom: var(--space-xl);">
+                    Order ID: <strong id="orderId">#12345</strong>
+                </p>
+                <div class="flex-center" style="gap: var(--space-md);">
+                    <a href="orders.html" class="btn btn-primary">View My Orders</a>
+                    <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let cartItems = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            if (!API.isAuthenticated()) {
+                Utils.showToast('Please login to checkout', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html?redirect=checkout.html';
+                }, 1500);
+                return;
+            }
+
+            const user = API.getUser();
+
+            // Pre-fill user data
+            if (user) {
+                document.getElementById('fullName').value = user.full_name || '';
+                document.getElementById('phone').value = user.phone || '';
+                document.getElementById('address').value = user.address || '';
+            }
+
+            // Load cart
+            await loadCart();
+
+            // Form submission
+            document.getElementById('checkoutForm').addEventListener('submit', handleCheckout);
+        });
+
+        async function loadCart() {
+            try {
+                cartItems = await API.getCart();
+
+                if (cartItems.length === 0) {
+                    Utils.showToast('Your cart is empty', 'warning');
+                    window.location.href = 'cart.html';
+                    return;
+                }
+
+                renderOrderSummary();
+            } catch (error) {
+                console.error('Failed to load cart:', error);
+                Utils.showToast('Failed to load cart', 'error');
+            }
+        }
+
+        function renderOrderSummary() {
+            const container = document.getElementById('orderItems');
+
+            container.innerHTML = cartItems.map(item => {
+                const product = item.product || {};
+                return `
+                    <div class="order-summary__item">
+                        <img src="${product.images?.[0] || 'https://via.placeholder.com/60'}" 
+                             alt="${product.name}"
+                             class="order-summary__item-image">
+                        <div class="order-summary__item-info">
+                            <div class="order-summary__item-name">${Utils.truncate(product.name, 25)}</div>
+                            <div class="order-summary__item-meta">Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="order-summary__item-price">
+                            ${Utils.formatPrice((product.price || 0) * item.quantity)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Calculate totals
+            const subtotal = cartItems.reduce((sum, item) => {
+                const price = item.product?.price || 0;
+                return sum + (price * item.quantity);
+            }, 0);
+
+            document.getElementById('subtotal').textContent = Utils.formatPrice(subtotal);
+            document.getElementById('total').textContent = Utils.formatPrice(subtotal);
+        }
+
+        async function handleCheckout(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+
+            const shippingAddress = `${fullName}\n${phone}\n${address}${notes ? '\n\nNotes: ' + notes : ''}`;
+
+            const btn = document.getElementById('placeOrderBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px;"></span> Processing...';
+
+            try {
+                const order = await API.createOrder(shippingAddress);
+
+                // Show success state
+                document.getElementById('checkoutContainer').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+                document.getElementById('orderId').textContent = '#' + order.id;
+
+                Utils.showToast('Order placed successfully!', 'success');
+
+            } catch (error) {
+                Utils.showToast(error.message || 'Failed to place order', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '🌿 Place Order';
+            }
+        }
+    </script>
+</body>
+
+</html>

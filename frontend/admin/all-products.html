@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Eco Haat Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .dashboard {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #0D2818 0%, #1B5E20 100%);
+            color: var(--text-on-dark);
+            padding: var(--space-xl);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            overflow-y: auto;
+        }
+
+        .sidebar__logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+            color: var(--text-white);
+        }
+
+        .sidebar__badge {
+            display: inline-block;
+            background: var(--accent-amber);
+            color: var(--earth-dark);
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-white);
+        }
+
+        .sidebar__link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar__divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: var(--space-lg) 0;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: var(--space-xl);
+            background: var(--bg-primary);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            background: var(--bg-card);
+            padding: var(--space-sm);
+            border-radius: var(--radius-lg);
+            width: fit-content;
+        }
+
+        .filter-tab {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            background: transparent;
+        }
+
+        .filter-tab:hover {
+            background: var(--bg-secondary);
+        }
+
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .products-table-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: var(--space-md) var(--space-lg);
+            text-align: left;
+        }
+
+        .products-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        .products-table tr:not(:last-child) {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .products-table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .product-cell__image {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge--pending {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .badge--approved {
+            background: var(--primary-pale);
+            color: var(--primary-dark);
+        }
+
+        .badge--rejected {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .eco-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="../index.html" class="sidebar__logo">
+                <img src="../assets/images/logo.png" alt="Eco Haat" class="sidebar__logo-img">
+            </a>
+            <span class="sidebar__badge">ADMIN PANEL</span>
+
+            <nav class="sidebar__nav">
+                <a href="index.html" class="sidebar__link">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="sidebar__link">
+                    <span>📦</span>
+                    <span>Pending Products</span>
+                </a>
+                <a href="all-products.html" class="sidebar__link active">
+                    <span>🛍️</span>
+                    <span>All Products</span>
+                </a>
+                <a href="users.html" class="sidebar__link">
+                    <span>👥</span>
+                    <span>Users</span>
+                </a>
+                <a href="categories.html" class="sidebar__link">
+                    <span>🏷️</span>
+                    <span>Categories</span>
+                </a>
+                <a href="orders.html" class="sidebar__link">
+                    <span>🛒</span>
+                    <span>Orders</span>
+                </a>
+
+                <div class="sidebar__divider"></div>
+
+                <a href="../index.html" class="sidebar__link">
+                    <span>🏠</span>
+                    <span>View Store</span>
+                </a>
+                <a href="#" class="sidebar__link" id="logoutBtn">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">🛍️ All Products</h1>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="pending">⏳ Pending</button>
+                <button class="filter-tab" data-filter="approved">✅ Approved</button>
+                <button class="filter-tab" data-filter="rejected">❌ Rejected</button>
+            </div>
+
+            <div class="products-table-container fade-in-up">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Seller</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Eco Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsBody">
+                        <tr>
+                            <td colspan="6" class="text-center" style="padding: 3rem;">
+                                <div class="spinner" style="margin: 0 auto;"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let allProducts = [];
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            const user = API.getUser();
+            if (!user || user.role !== 'admin') {
+                Utils.showToast('Access denied. Admin account required.', 'error');
+                setTimeout(() => {
+                    window.location.href = '../pages/login.html';
+                }, 1500);
+                return;
+            }
+
+            await loadProducts();
+
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.filter;
+                    renderProducts();
+                });
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await API.logout();
+                window.location.href = '../index.html';
+            });
+        });
+
+        async function loadProducts() {
+            try {
+                allProducts = await API.get(CONFIG.ENDPOINTS.ALL_PRODUCTS_ADMIN);
+                renderProducts();
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                Utils.showToast('Failed to load products', 'error');
+            }
+        }
+
+        function renderProducts() {
+            const tbody = document.getElementById('productsBody');
+            let products = allProducts;
+
+            if (currentFilter !== 'all') {
+                products = allProducts.filter(p => p.status === currentFilter);
+            }
+
+            if (products.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding: 3rem;">
+                            <p style="color: var(--text-muted);">No products found.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="${product.images?.[0] || 'https://via.placeholder.com/50'}" 
+                                 alt="${product.name}"
+                                 class="product-cell__image">
+                            <div>
+                                <div style="font-weight: 500;">${Utils.truncate(product.name, 30)}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">${product.material}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${product.seller_name || 'Seller'}</td>
+                    <td><strong>${Utils.formatPrice(product.price)}</strong></td>
+                    <td>${product.stock_quantity}</td>
+                    <td>
+                        <span class="badge badge--${product.status}">
+                            ${product.status.charAt(0).toUpperCase() + product.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        ${product.eco_rating !== null ? `
+                            <span class="eco-rating">🌿 ${product.eco_rating}%</span>
+                        ` : '-'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+
+</html>

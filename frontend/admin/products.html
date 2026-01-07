@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Products - Eco Haat Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .dashboard {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #0D2818 0%, #1B5E20 100%);
+            color: var(--text-on-dark);
+            padding: var(--space-xl);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            overflow-y: auto;
+        }
+
+        .sidebar__logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+            color: var(--text-white);
+        }
+
+        .sidebar__badge {
+            display: inline-block;
+            background: var(--accent-amber);
+            color: var(--earth-dark);
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-white);
+        }
+
+        .sidebar__link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar__link .count {
+            margin-left: auto;
+            background: var(--error);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .sidebar__divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: var(--space-lg) 0;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: var(--space-xl);
+            background: var(--bg-primary);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .products-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .product-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 150px 200px;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .product-item__image {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+        }
+
+        .product-item__info h4 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .product-item__meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .product-item__price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .product-item__actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .eco-rating-input {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .eco-rating-input__label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+
+        .eco-rating-input input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(to right, #F44336, #FFC107, #4CAF50);
+            border-radius: 4px;
+        }
+
+        .eco-rating-input input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .modal-close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl);
+        }
+
+        .empty-state__icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .product-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="../index.html" class="sidebar__logo">
+                <img src="../assets/images/logo.png" alt="Eco Haat" class="sidebar__logo-img">
+            </a>
+            <span class="sidebar__badge">ADMIN PANEL</span>
+
+            <nav class="sidebar__nav">
+                <a href="index.html" class="sidebar__link">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="sidebar__link active">
+                    <span>📦</span>
+                    <span>Pending Products</span>
+                    <span class="count" id="pendingCount">0</span>
+                </a>
+                <a href="all-products.html" class="sidebar__link">
+                    <span>🛍️</span>
+                    <span>All Products</span>
+                </a>
+                <a href="users.html" class="sidebar__link">
+                    <span>👥</span>
+                    <span>Users</span>
+                </a>
+                <a href="categories.html" class="sidebar__link">
+                    <span>🏷️</span>
+                    <span>Categories</span>
+                </a>
+                <a href="orders.html" class="sidebar__link">
+                    <span>🛒</span>
+                    <span>Orders</span>
+                </a>
+
+                <div class="sidebar__divider"></div>
+
+                <a href="../index.html" class="sidebar__link">
+                    <span>🏠</span>
+                    <span>View Store</span>
+                </a>
+                <a href="#" class="sidebar__link" id="logoutBtn">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">⏳ Pending Products</h1>
+            </div>
+
+            <div class="products-section fade-in-up" id="productsContainer">
+                <div class="text-center" style="padding: 3rem;">
+                    <div class="spinner" style="margin: 0 auto;"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Approval Modal -->
+    <div class="modal-overlay" id="approvalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ Approve Product</h3>
+                <span class="modal-close" onclick="closeModal()">×</span>
+            </div>
+
+            <form id="approvalForm">
+                <input type="hidden" id="approvalProductId">
+
+                <div class="form-group">
+                    <div class="eco-rating-input">
+                        <div class="eco-rating-input__label">
+                            <span>Eco-Friendliness Rating</span>
+                            <span id="ecoRatingDisplay" style="font-weight: 700; color: var(--primary);">75%</span>
+                        </div>
+                        <input type="range" id="ecoRatingSlider" min="0" max="100" value="75" step="5">
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: var(--space-sm);">
+                        Rate based on material sustainability, biodegradability, and production impact.
+                    </p>
+                </div>
+
+                <div class="flex" style="gap: var(--space-md); margin-top: var(--space-xl);">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Approve Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rejection Modal -->
+    <div class="modal-overlay" id="rejectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>❌ Reject Product</h3>
+                <span class="modal-close" onclick="closeModal()">×</span>
+            </div>
+
+            <form id="rejectionForm">
+                <input type="hidden" id="rejectionProductId">
+
+                <div class="form-group">
+                    <label class="form-label" for="rejectionReason">Reason for Rejection *</label>
+                    <textarea id="rejectionReason" class="form-input form-textarea" rows="4"
+                        placeholder="Explain why this product doesn't meet eco-friendly standards..."
+                        required></textarea>
+                </div>
+
+                <div class="flex" style="gap: var(--space-md); margin-top: var(--space-xl);">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background: var(--error);">Reject
+                        Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            const user = API.getUser();
+            if (!user || user.role !== 'admin') {
+                Utils.showToast('Access denied. Admin account required.', 'error');
+                setTimeout(() => {
+                    window.location.href = '../pages/login.html';
+                }, 1500);
+                return;
+            }
+
+            await loadPendingProducts();
+
+            // Eco rating slider
+            document.getElementById('ecoRatingSlider').addEventListener('input', (e) => {
+                document.getElementById('ecoRatingDisplay').textContent = e.target.value + '%';
+            });
+
+            // Approval form
+            document.getElementById('approvalForm').addEventListener('submit', handleApproval);
+
+            // Rejection form
+            document.getElementById('rejectionForm').addEventListener('submit', handleRejection);
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await API.logout();
+                window.location.href = '../index.html';
+            });
+        });
+
+        async function loadPendingProducts() {
+            const container = document.getElementById('productsContainer');
+
+            try {
+                const products = await API.getPendingProducts();
+                document.getElementById('pendingCount').textContent = products.length;
+
+                if (products.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state__icon">🎉</div>
+                            <h3>All caught up!</h3>
+                            <p style="color: var(--text-muted);">No products pending approval.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = products.map(product => `
+                    <div class="product-item">
+                        <img src="${product.images?.[0] || 'https://via.placeholder.com/100'}" 
+                             alt="${product.name}"
+                             class="product-item__image">
+                        
+                        <div class="product-item__info">
+                            <h4>${product.name}</h4>
+                            <p class="product-item__meta">
+                                Material: <strong>${product.material}</strong> | 
+                                Stock: ${product.stock_quantity}
+                            </p>
+                            <p class="product-item__meta" style="font-size: 0.75rem;">
+                                ${Utils.truncate(product.description || 'No description', 100)}
+                            </p>
+                        </div>
+                        
+                        <div class="product-item__price">
+                            ${Utils.formatPrice(product.price)}
+                        </div>
+                        
+                        <div class="product-item__actions">
+                            <button class="btn btn-primary btn-sm" onclick="openApprovalModal(${product.id})">
+                                ✅ Approve
+                            </button>
+                            <button class="btn btn-ghost btn-sm" style="color: var(--error);" onclick="openRejectionModal(${product.id})">
+                                ❌ Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                Utils.showToast('Failed to load pending products', 'error');
+            }
+        }
+
+        function openApprovalModal(productId) {
+            document.getElementById('approvalProductId').value = productId;
+            document.getElementById('ecoRatingSlider').value = 75;
+            document.getElementById('ecoRatingDisplay').textContent = '75%';
+            document.getElementById('approvalModal').classList.add('active');
+        }
+
+        function openRejectionModal(productId) {
+            document.getElementById('rejectionProductId').value = productId;
+            document.getElementById('rejectionReason').value = '';
+            document.getElementById('rejectionModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        async function handleApproval(e) {
+            e.preventDefault();
+
+            const productId = document.getElementById('approvalProductId').value;
+            const ecoRating = parseInt(document.getElementById('ecoRatingSlider').value);
+
+            try {
+                await API.approveProduct(productId, ecoRating);
+                Utils.showToast('Product approved successfully!', 'success');
+                closeModal();
+                await loadPendingProducts();
+            } catch (error) {
+                Utils.showToast(error.message || 'Failed to approve product', 'error');
+            }
+        }
+
+        async function handleRejection(e) {
+            e.preventDefault();
+
+            const productId = document.getElementById('rejectionProductId').value;
+            const reason = document.getElementById('rejectionReason').value;
+
+            try {
+                await API.rejectProduct(productId, reason);
+                Utils.showToast('Product rejected.', 'warning');
+                closeModal();
+                await loadPendingProducts();
+            } catch (error) {
+                Utils.showToast(error.message || 'Failed to reject product', 'error');
+            }
+        }
+    </script>
+</body>
+
+</html>

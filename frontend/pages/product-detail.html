@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Eco Haat</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .product-page {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .product-gallery {
+            position: sticky;
+            top: 100px;
+        }
+
+        .product-gallery__main {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background: var(--bg-secondary);
+            margin-bottom: var(--space-md);
+        }
+
+        .product-gallery__main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-gallery__thumbs {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .product-gallery__thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition-fast);
+        }
+
+        .product-gallery__thumb:hover,
+        .product-gallery__thumb.active {
+            border-color: var(--primary);
+        }
+
+        .product-gallery__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Product Info */
+        .product-info__category {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .product-info__title {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .product-info__price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Eco Rating Display */
+        .eco-rating-display {
+            background: var(--gradient-forest);
+            color: white;
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .eco-rating-display__circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .eco-rating-display__info h4 {
+            font-size: 1.125rem;
+            margin-bottom: var(--space-xs);
+        }
+
+        .eco-rating-display__info p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* Material Badge */
+        .material-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--primary-pale);
+            color: var(--primary-dark);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            margin-bottom: var(--space-xl);
+        }
+
+        .product-info__description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--space-xl);
+        }
+
+        /* Add to Cart Section */
+        .add-to-cart {
+            background: var(--bg-secondary);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .add-to-cart__stock {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+
+        .add-to-cart__stock.in-stock {
+            color: var(--success);
+        }
+
+        .add-to-cart__stock.out-of-stock {
+            color: var(--error);
+        }
+
+        .add-to-cart__controls {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--bg-card);
+            padding: var(--space-sm);
+            border-radius: var(--radius-full);
+        }
+
+        .quantity-input button {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-circle);
+            background: var(--primary-pale);
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .quantity-input button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quantity-input input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            background: none;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        /* Seller Info */
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .seller-info__avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-pale);
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+
+            .product-gallery {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__logo">
+                <img src="../assets/images/logo.png" alt="Eco Haat" class="navbar__logo-img">
+            </a>
+
+            <ul class="navbar__nav">
+                <li><a href="../index.html" class="navbar__link">Home</a></li>
+                <li><a href="products.html" class="navbar__link active">Products</a></li>
+            </ul>
+
+            <div class="navbar__actions">
+                <a href="cart.html" class="btn btn-icon navbar__cart">
+                    🛒
+                    <span class="navbar__cart-count" style="display: none;">0</span>
+                </a>
+                <a href="login.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="product-page">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav style="margin-bottom: var(--space-xl); color: var(--text-muted);">
+                <a href="../index.html" style="color: var(--text-muted);">Home</a> /
+                <a href="products.html" style="color: var(--text-muted);">Products</a> /
+                <span id="breadcrumbProduct">Loading...</span>
+            </nav>
+
+            <div class="product-detail">
+                <!-- Gallery -->
+                <div class="product-gallery fade-in-left">
+                    <div class="product-gallery__main">
+                        <img id="mainImage" src="https://via.placeholder.com/600" alt="Product">
+                    </div>
+                    <div class="product-gallery__thumbs" id="thumbnails"></div>
+                </div>
+
+                <!-- Info -->
+                <div class="product-info fade-in-right">
+                    <div class="product-info__category" id="productCategory">Loading...</div>
+                    <h1 class="product-info__title" id="productName">Loading...</h1>
+                    <div class="product-info__price" id="productPrice">৳0</div>
+
+                    <!-- Eco Rating -->
+                    <div class="eco-rating-display" id="ecoRating" style="display: none;">
+                        <div class="eco-rating-display__circle" id="ecoRatingValue">0%</div>
+                        <div class="eco-rating-display__info">
+                            <h4>Eco-Friendliness Rating</h4>
+                            <p>Verified by Eco Haat sustainability experts</p>
+                        </div>
+                    </div>
+
+                    <!-- Material -->
+                    <div class="material-badge" id="materialBadge">
+                        🌱 <span id="productMaterial">Loading...</span>
+                    </div>
+
+                    <p class="product-info__description" id="productDescription">
+                        Loading product description...
+                    </p>
+
+                    <!-- Add to Cart -->
+                    <div class="add-to-cart">
+                        <div class="add-to-cart__stock" id="stockStatus">
+                            <span>⏳</span>
+                            <span>Checking availability...</span>
+                        </div>
+
+                        <div class="add-to-cart__controls">
+                            <div class="quantity-input">
+                                <button type="button" id="decreaseQty">−</button>
+                                <input type="number" id="quantity" value="1" min="1" readonly>
+                                <button type="button" id="increaseQty">+</button>
+                            </div>
+                            <button class="btn btn-primary btn-lg ripple" id="addToCartBtn" style="flex: 1;">
+                                🛒 Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Seller -->
+                    <div class="seller-info">
+                        <div class="seller-info__avatar">🏪</div>
+                        <div>
+                            <div style="font-weight: 600;" id="sellerName">Seller</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Verified Eco Seller</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <p class="footer__copyright">© 2024 Eco Haat. Made with 💚 for the planet.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-container"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let product = null;
+        let quantity = 1;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                Utils.showToast('Product not found', 'error');
+                window.location.href = 'products.html';
+                return;
+            }
+
+            // Update navbar
+            updateNavbar();
+
+            // Load product
+            await loadProduct(productId);
+
+            // Set up quantity controls
+            setupQuantityControls();
+
+            // Add to cart handler
+            document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+        });
+
+        function updateNavbar() {
+            const user = API.getUser();
+            if (user) {
+                document.getElementById('loginBtn').textContent = user.full_name || 'Account';
+                Utils.updateCartBadge();
+            }
+        }
+
+        async function loadProduct(productId) {
+            try {
+                product = await API.getProduct(productId);
+                renderProduct();
+            } catch (error) {
+                console.error('Failed to load product:', error);
+                Utils.showToast('Product not found', 'error');
+                window.location.href = 'products.html';
+            }
+        }
+
+        function renderProduct() {
+            // Update page title
+            document.title = `${product.name} - Eco Haat`;
+            document.getElementById('breadcrumbProduct').textContent = product.name;
+
+            // Basic info
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productCategory').textContent = product.category_name || 'Eco Product';
+            document.getElementById('productPrice').textContent = Utils.formatPrice(product.price);
+            document.getElementById('productMaterial').textContent = product.material;
+            document.getElementById('productDescription').textContent = product.description || 'A beautiful eco-friendly product made with sustainable materials.';
+            document.getElementById('sellerName').textContent = product.seller_name || 'Eco Seller';
+
+            // Eco Rating
+            if (product.eco_rating) {
+                const ecoRatingEl = document.getElementById('ecoRating');
+                ecoRatingEl.style.display = 'flex';
+                document.getElementById('ecoRatingValue').textContent = product.eco_rating + '%';
+            }
+
+            // Stock status
+            const stockEl = document.getElementById('stockStatus');
+            if (product.stock_quantity > 0) {
+                stockEl.className = 'add-to-cart__stock in-stock';
+                stockEl.innerHTML = `<span>✓</span><span>In Stock (${product.stock_quantity} available)</span>`;
+            } else {
+                stockEl.className = 'add-to-cart__stock out-of-stock';
+                stockEl.innerHTML = `<span>✕</span><span>Out of Stock</span>`;
+                document.getElementById('addToCartBtn').disabled = true;
+            }
+
+            // Images
+            const mainImage = document.getElementById('mainImage');
+            const thumbnails = document.getElementById('thumbnails');
+
+            if (product.images && product.images.length > 0) {
+                mainImage.src = product.images[0];
+                mainImage.alt = product.name;
+
+                thumbnails.innerHTML = product.images.map((img, i) => `
+                    <div class="product-gallery__thumb ${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
+                        <img src="${img}" alt="${product.name}">
+                    </div>
+                `).join('');
+            } else {
+                mainImage.src = 'https://via.placeholder.com/600/E8F5E9/2E7D32?text=Eco+Product';
+            }
+        }
+
+        function changeImage(src, thumb) {
+            document.getElementById('mainImage').src = src;
+            document.querySelectorAll('.product-gallery__thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+
+        function setupQuantityControls() {
+            const qtyInput = document.getElementById('quantity');
+            const decreaseBtn = document.getElementById('decreaseQty');
+            const increaseBtn = document.getElementById('increaseQty');
+
+            decreaseBtn.addEventListener('click', () => {
+                if (quantity > 1) {
+                    quantity--;
+                    qtyInput.value = quantity;
+                }
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                if (product && quantity < product.stock_quantity) {
+                    quantity++;
+                    qtyInput.value = quantity;
+                }
+            });
+        }
+
+        async function addToCart() {
+            if (!API.isAuthenticated()) {
+                Utils.showToast('Please login to add items to cart', 'warning');
+                setTimeout(() => {
+                    window.location.href = `login.html?redirect=product-detail.html?id=${product.id}`;
+                }, 1500);
+                return;
+            }
+
+            const btn = document.getElementById('addToCartBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px;"></span>';
+
+            try {
+                await API.addToCart(product.id, quantity);
+
+                // Create particle effect
+                const rect = btn.getBoundingClientRect();
+                Utils.createParticles(rect.left + rect.width / 2, rect.top);
+
+                Utils.showToast('Added to cart!', 'success');
+                Utils.updateCartBadge();
+
+            } catch (error) {
+                Utils.showToast(error.message || 'Failed to add to cart', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🛒 Add to Cart';
+            }
+        }
+    </script>
+</body>
+
+</html>

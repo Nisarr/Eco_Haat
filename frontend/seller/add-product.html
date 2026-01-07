@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Eco Haat</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .dashboard {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: var(--bg-dark);
+            color: var(--text-on-dark);
+            padding: var(--space-xl);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            overflow-y: auto;
+        }
+
+        .sidebar__logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2xl);
+            color: var(--text-white);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-white);
+        }
+
+        .sidebar__link.active {
+            background: var(--primary);
+        }
+
+        .sidebar__icon {
+            font-size: 1.25rem;
+        }
+
+        .sidebar__divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: var(--space-lg) 0;
+        }
+
+        .sidebar__user {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            margin-top: auto;
+        }
+
+        .sidebar__avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: var(--space-xl);
+            background: var(--bg-primary);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+            max-width: 800px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .form-section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-section__title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .image-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: var(--primary-pale);
+        }
+
+        .image-upload__icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .image-preview__item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .image-preview__item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview__remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: var(--radius-circle);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-light);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="../index.html" class="sidebar__logo">
+                <img src="../assets/images/logo.png" alt="Eco Haat" class="sidebar__logo-img">
+            </a>
+
+            <nav class="sidebar__nav">
+                <a href="index.html" class="sidebar__link">
+                    <span class="sidebar__icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="my-products.html" class="sidebar__link">
+                    <span class="sidebar__icon">📦</span>
+                    <span>My Products</span>
+                </a>
+                <a href="add-product.html" class="sidebar__link active">
+                    <span class="sidebar__icon">➕</span>
+                    <span>Add Product</span>
+                </a>
+                <a href="orders.html" class="sidebar__link">
+                    <span class="sidebar__icon">🛒</span>
+                    <span>Orders</span>
+                </a>
+
+                <div class="sidebar__divider"></div>
+
+                <a href="../index.html" class="sidebar__link">
+                    <span class="sidebar__icon">🏠</span>
+                    <span>View Store</span>
+                </a>
+                <a href="#" class="sidebar__link" id="logoutBtn">
+                    <span class="sidebar__icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+            <div class="sidebar__user">
+                <div class="sidebar__avatar">🌱</div>
+                <div>
+                    <div style="font-weight: 600;" id="userName">Seller</div>
+                    <div style="font-size: 0.75rem; color: var(--text-light);">Seller Account</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">➕ Add New Product</h1>
+                <a href="my-products.html" class="btn btn-ghost">← Back to Products</a>
+            </div>
+
+            <div class="form-card fade-in-up">
+                <form id="productForm">
+                    <!-- Basic Info -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">🏷️ Basic Information</h3>
+
+                        <div class="form-group">
+                            <label class="form-label" for="name">Product Name *</label>
+                            <input type="text" id="name" class="form-input" placeholder="e.g., Bamboo Toothbrush Set"
+                                required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Category *</label>
+                                <select id="category" class="form-input form-select" required>
+                                    <option value="">Select a category</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="material">Material *</label>
+                                <input type="text" id="material" class="form-input"
+                                    placeholder="e.g., 100% Bamboo, Organic Cotton" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea id="description" class="form-input form-textarea" rows="4"
+                                placeholder="Describe your eco-friendly product, its benefits, and sustainability features..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Pricing & Stock -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">💰 Pricing & Inventory</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="price">Price (৳) *</label>
+                                <input type="number" id="price" class="form-input" placeholder="0.00" min="1"
+                                    step="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="stock">Stock Quantity *</label>
+                                <input type="number" id="stock" class="form-input" placeholder="0" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">📷 Product Images</h3>
+
+                        <label class="image-upload" for="images">
+                            <div class="image-upload__icon">📁</div>
+                            <p><strong>Click to upload</strong> or drag and drop</p>
+                            <p style="font-size: 0.875rem; color: var(--text-muted);">PNG, JPG up to 5MB each</p>
+                            <input type="file" id="images" accept="image/*" multiple>
+                        </label>
+
+                        <div class="image-preview" id="imagePreview"></div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: var(--space-sm);">
+                            Note: For demo purposes, images are stored as URLs. In production, they would upload to
+                            Supabase Storage.
+                        </p>
+                    </div>
+
+                    <!-- Image URLs (fallback) -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">🔗 Image URLs (Optional)</h3>
+                        <div class="form-group">
+                            <label class="form-label" for="imageUrls">Enter image URLs (one per line)</label>
+                            <textarea id="imageUrls" class="form-input form-textarea" rows="3"
+                                placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-ghost" onclick="window.location.href='my-products.html'">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            🌿 Submit for Approval
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        let selectedImages = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            const user = API.getUser();
+            if (!user || user.role !== 'seller') {
+                Utils.showToast('Access denied. Seller account required.', 'error');
+                setTimeout(() => {
+                    window.location.href = '../pages/login.html';
+                }, 1500);
+                return;
+            }
+
+            document.getElementById('userName').textContent = user.full_name || 'Seller';
+
+            // Load categories
+            await loadCategories();
+
+            // Form submission
+            document.getElementById('productForm').addEventListener('submit', handleSubmit);
+
+            // Image upload
+            document.getElementById('images').addEventListener('change', handleImageSelect);
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await API.logout();
+                window.location.href = '../index.html';
+            });
+        });
+
+        async function loadCategories() {
+            try {
+                const categories = await API.getCategories();
+                const select = document.getElementById('category');
+
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = `${cat.icon || ''} ${cat.name}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load categories:', error);
+                // Add default categories as fallback
+                const defaultCategories = [
+                    { id: 1, name: 'Paper Products' },
+                    { id: 2, name: 'Bamboo Products' },
+                    { id: 3, name: 'Clay & Pottery' },
+                    { id: 4, name: 'Jute & Natural Fiber' },
+                    { id: 5, name: 'Organic Textiles' }
+                ];
+                const select = document.getElementById('category');
+                defaultCategories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = cat.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        function handleImageSelect(e) {
+            const files = Array.from(e.target.files);
+            const preview = document.getElementById('imagePreview');
+
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    Utils.showToast('Image too large. Max 5MB allowed.', 'warning');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    selectedImages.push(event.target.result);
+                    renderImagePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderImagePreview() {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = selectedImages.map((img, index) => `
+                <div class="image-preview__item">
+                    <img src="${img}" alt="Preview ${index + 1}">
+                    <button type="button" class="image-preview__remove" onclick="removeImage(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeImage(index) {
+            selectedImages.splice(index, 1);
+            renderImagePreview();
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px;"></span>';
+
+            try {
+                // Get image URLs from textarea
+                const imageUrlsText = document.getElementById('imageUrls').value.trim();
+                const imageUrls = imageUrlsText ? imageUrlsText.split('\n').filter(url => url.trim()) : [];
+
+                // Combine with selected images (for demo, we'll use URLs)
+                const allImages = [...imageUrls];
+
+                // If no URLs provided, use a placeholder
+                if (allImages.length === 0 && selectedImages.length === 0) {
+                    allImages.push('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400');
+                }
+
+                const productData = {
+                    name: document.getElementById('name').value,
+                    category_id: parseInt(document.getElementById('category').value),
+                    material: document.getElementById('material').value,
+                    description: document.getElementById('description').value,
+                    price: parseFloat(document.getElementById('price').value),
+                    stock_quantity: parseInt(document.getElementById('stock').value),
+                    images: allImages
+                };
+
+                await API.createProduct(productData);
+
+                Utils.showToast('Product submitted for approval!', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'my-products.html';
+                }, 1500);
+
+            } catch (error) {
+                Utils.showToast(error.message || 'Failed to create product', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🌿 Submit for Approval';
+            }
+        }
+    </script>
+</body>
+
+</html>

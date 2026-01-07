@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Eco Haat</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            padding: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-page__bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            z-index: 1;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .auth-card__logo {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .auth-card__logo a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .auth-card__logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .auth-card__title {
+            text-align: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        .auth-card__subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: var(--space-xl);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .auth-form__submit {
+            margin-top: var(--space-md);
+        }
+
+        .auth-card__footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-light);
+            color: var(--text-muted);
+        }
+
+        .auth-card__footer a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .role-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-lg);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+        }
+
+        .role-option label:hover {
+            border-color: var(--primary);
+            background: var(--primary-pale);
+        }
+
+        .role-option input:checked+label {
+            border-color: var(--primary);
+            background: var(--primary-pale);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+
+        .role-option__icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .role-option__title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .role-option__desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: var(--space-xs);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .role-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-page">
+        <div class="auth-page__bg" id="authBg"></div>
+
+        <div class="auth-card fade-in-up">
+            <div class="auth-card__logo">
+                <a href="../index.html">
+                    <img src="../assets/images/logo.png" alt="Eco Haat" class="auth-card__logo-img">
+                </a>
+            </div>
+
+            <h2 class="auth-card__title">Join Eco Haat</h2>
+            <p class="auth-card__subtitle">Start your sustainable shopping journey</p>
+
+            <form class="auth-form" id="registerForm">
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label class="form-label">I want to:</label>
+                    <div class="role-selector">
+                        <div class="role-option">
+                            <input type="radio" name="role" id="roleBuyer" value="buyer" checked>
+                            <label for="roleBuyer">
+                                <span class="role-option__icon">🛒</span>
+                                <span class="role-option__title">Shop Products</span>
+                                <span class="role-option__desc">Buy eco-friendly products</span>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" name="role" id="roleSeller" value="seller">
+                            <label for="roleSeller">
+                                <span class="role-option__icon">🏪</span>
+                                <span class="role-option__title">Sell Products</span>
+                                <span class="role-option__desc">List your eco products</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="+880 1XXX-XXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Create a strong password"
+                        required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password"
+                        required>
+                </div>
+
+                <div class="form-group" id="addressGroup">
+                    <label class="form-label" for="address">Address</label>
+                    <textarea id="address" class="form-input form-textarea" placeholder="Your shipping/business address"
+                        rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg auth-form__submit ripple" id="submitBtn">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-card__footer">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add floating leaves
+            const authBg = document.getElementById('authBg');
+            Utils.renderFloatingLeaves(authBg);
+
+            // Check URL params for role
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleParam = urlParams.get('role');
+
+            if (roleParam === 'seller') {
+                document.getElementById('roleSeller').checked = true;
+            }
+
+            // Check if already logged in
+            if (API.isAuthenticated()) {
+                redirectToDashboard();
+            }
+
+            // Form submission
+            const form = document.getElementById('registerForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const address = document.getElementById('address').value;
+                const role = document.querySelector('input[name="role"]:checked').value;
+
+                // Validate passwords match
+                if (password !== confirmPassword) {
+                    Utils.showToast('Passwords do not match', 'error');
+                    return;
+                }
+
+                // Disable button
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px;"></span>';
+
+                try {
+                    const response = await API.register({
+                        full_name: fullName,
+                        email: email,
+                        password: password,
+                        phone: phone || null,
+                        address: address || null,
+                        role: role
+                    });
+
+                    Utils.showToast(response.message || 'Registration successful!', 'success');
+
+                    // Redirect to login after success
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+
+                } catch (error) {
+                    Utils.showToast(error.message || 'Registration failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create Account';
+                }
+            });
+        });
+
+        function redirectToDashboard() {
+            const user = API.getUser();
+            if (!user) {
+                window.location.href = '../index.html';
+                return;
+            }
+
+            const dashboardUrls = {
+                admin: '../admin/index.html',
+                seller: '../seller/index.html',
+                buyer: '../index.html'
+            };
+
+            window.location.href = dashboardUrls[user.role] || '../index.html';
+        }
+    </script>
+</body>
+
+</html>

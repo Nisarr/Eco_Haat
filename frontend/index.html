@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Eco Haat - Your eco-friendly marketplace for sustainable, biodegradable products. Shop bamboo, paper, clay, and natural fiber products.">
+    <meta name="keywords"
+        content="eco-friendly, sustainable, biodegradable, bamboo, paper products, organic, green marketplace">
+    <meta name="author" content="Eco Haat">
+
+    <title>Eco Haat - Sustainable Marketplace for Eco-Friendly Products</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body>
+    <!-- Page Transition -->
+    <div class="page-transition">
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar__container">
+            <a href="index.html" class="navbar__logo">
+                <img src="assets/images/logo.png" alt="Eco Haat" class="navbar__logo-img">
+            </a>
+
+            <ul class="navbar__nav" id="navMenu">
+                <li><a href="index.html" class="navbar__link active">Home</a></li>
+                <li><a href="pages/products.html" class="navbar__link">Products</a></li>
+                <li><a href="#categories" class="navbar__link">Categories</a></li>
+                <li><a href="#about" class="navbar__link">About</a></li>
+                <li><a href="#contact" class="navbar__link">Contact</a></li>
+            </ul>
+
+            <div class="navbar__actions">
+                <a href="pages/cart.html" class="btn btn-icon navbar__cart" title="Shopping Cart">
+                    🛒
+                    <span class="navbar__cart-count" style="display: none;">0</span>
+                </a>
+                <a href="pages/login.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+                <a href="pages/register.html" class="btn btn-primary btn-sm" id="registerBtn">Join Now</a>
+
+                <!-- User dropdown (shown when logged in) -->
+                <div class="navbar__user hidden" id="userDropdown">
+                    <button class="btn btn-ghost btn-sm" id="userBtn">
+                        <span id="userName">User</span> ▾
+                    </button>
+                    <div class="navbar__dropdown">
+                        <a href="#" id="dashboardLink">Dashboard</a>
+                        <a href="#" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero__bg" id="heroBg">
+            <!-- Floating leaves will be added by JS -->
+        </div>
+
+        <div class="container">
+            <div class="hero__content">
+                <div class="hero__badge fade-in">
+                    <span>🌍</span>
+                    <span>Join the Green Revolution</span>
+                </div>
+
+                <h1 class="hero__title fade-in-up delay-1">
+                    Shop <span>Sustainably</span>,<br>
+                    Live Responsibly
+                </h1>
+
+                <p class="hero__description fade-in-up delay-2">
+                    Discover handcrafted, eco-friendly products made from bamboo, paper, clay,
+                    and natural fibers. Every purchase you make helps reduce plastic waste
+                    and supports sustainable artisans.
+                </p>
+
+                <div class="hero__buttons fade-in-up delay-3">
+                    <a href="pages/products.html" class="btn btn-primary btn-lg ripple">
+                        Explore Products
+                    </a>
+                    <a href="pages/register.html?role=seller" class="btn btn-secondary btn-lg">
+                        Become a Seller
+                    </a>
+                </div>
+
+                <div class="hero__stats fade-in-up delay-4">
+                    <div class="hero__stat">
+                        <div class="hero__stat-value counter" data-target="5000">0</div>
+                        <div class="hero__stat-label">Eco Products</div>
+                    </div>
+                    <div class="hero__stat">
+                        <div class="hero__stat-value counter" data-target="1200">0</div>
+                        <div class="hero__stat-label">Happy Customers</div>
+                    </div>
+                    <div class="hero__stat">
+                        <div class="hero__stat-value counter" data-target="500">0</div>
+                        <div class="hero__stat-label">Green Sellers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-indicator__mouse">
+                <div class="scroll-indicator__wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section" id="features">
+        <div class="container">
+            <div class="features__header">
+                <span class="features__subtitle animate-on-scroll">Why Choose Eco Haat</span>
+                <h2 class="animate-on-scroll delay-1">The Future of Conscious Shopping</h2>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="card feature-card animate-on-scroll">
+                    <div class="feature-card__icon">🌱</div>
+                    <h4 class="feature-card__title">100% Eco-Friendly</h4>
+                    <p class="feature-card__description">
+                        Every product is verified for sustainability and rated by our eco-experts.
+                    </p>
+                </div>
+
+                <div class="card feature-card animate-on-scroll delay-1">
+                    <div class="feature-card__icon">🎋</div>
+                    <h4 class="feature-card__title">Natural Materials</h4>
+                    <p class="feature-card__description">
+                        Bamboo, paper, clay, jute, and biodegradable materials only.
+                    </p>
+                </div>
+
+                <div class="card feature-card animate-on-scroll delay-2">
+                    <div class="feature-card__icon">🤝</div>
+                    <h4 class="feature-card__title">Support Artisans</h4>
+                    <p class="feature-card__description">
+                        Direct support to local craftsmen and sustainable businesses.
+                    </p>
+                </div>
+
+                <div class="card feature-card animate-on-scroll delay-3">
+                    <div class="feature-card__icon">🌍</div>
+                    <h4 class="feature-card__title">Zero Plastic</h4>
+                    <p class="feature-card__description">
+                        Our mission is simple: Replace plastic with planet-friendly alternatives.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories section" id="categories">
+        <div class="container">
+            <div class="features__header">
+                <span class="features__subtitle animate-on-scroll">Browse By</span>
+                <h2 class="animate-on-scroll delay-1">Eco-Friendly Categories</h2>
+            </div>
+
+            <div class="grid grid-4" id="categoriesGrid">
+                <!-- Categories will be loaded dynamically -->
+                <div class="category-card animate-on-scroll" data-category="paper">
+                    <span class="category-card__icon">📄</span>
+                    <h5 class="category-card__name">Paper Products</h5>
+                    <span class="category-card__count">150+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-1" data-category="bamboo">
+                    <span class="category-card__icon">🎋</span>
+                    <h5 class="category-card__name">Bamboo Products</h5>
+                    <span class="category-card__count">200+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-2" data-category="clay">
+                    <span class="category-card__icon">🏺</span>
+                    <h5 class="category-card__name">Clay & Pottery</h5>
+                    <span class="category-card__count">80+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-3" data-category="jute">
+                    <span class="category-card__icon">🧵</span>
+                    <h5 class="category-card__name">Jute & Fiber</h5>
+                    <span class="category-card__count">120+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll" data-category="textiles">
+                    <span class="category-card__icon">👕</span>
+                    <h5 class="category-card__name">Organic Textiles</h5>
+                    <span class="category-card__count">90+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-1" data-category="wood">
+                    <span class="category-card__icon">🪵</span>
+                    <h5 class="category-card__name">Wooden Crafts</h5>
+                    <span class="category-card__count">110+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-2" data-category="packaging">
+                    <span class="category-card__icon">📦</span>
+                    <h5 class="category-card__name">Eco Packaging</h5>
+                    <span class="category-card__count">60+ items</span>
+                </div>
+
+                <div class="category-card animate-on-scroll delay-3" data-category="cosmetics">
+                    <span class="category-card__icon">🌸</span>
+                    <h5 class="category-card__name">Natural Cosmetics</h5>
+                    <span class="category-card__count">75+ items</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <div class="features__header">
+                <span class="features__subtitle animate-on-scroll">Top Picks</span>
+                <h2 class="animate-on-scroll delay-1">Featured Eco Products</h2>
+            </div>
+
+            <div class="grid grid-4" id="featuredProducts">
+                <!-- Products will be loaded dynamically -->
+                <div class="skeleton" style="height: 350px; border-radius: 16px;"></div>
+                <div class="skeleton" style="height: 350px; border-radius: 16px;"></div>
+                <div class="skeleton" style="height: 350px; border-radius: 16px;"></div>
+                <div class="skeleton" style="height: 350px; border-radius: 16px;"></div>
+            </div>
+
+            <div class="text-center mt-xl">
+                <a href="pages/products.html" class="btn btn-primary btn-lg">
+                    View All Products →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eco Impact Section -->
+    <section class="section" id="about" style="background: var(--gradient-hero); color: var(--text-white);">
+        <div class="container">
+            <div class="grid grid-2" style="align-items: center; gap: 4rem;">
+                <div class="animate-on-scroll">
+                    <span class="features__subtitle" style="color: var(--accent-lime);">Our Impact</span>
+                    <h2 style="color: white; margin-bottom: var(--space-lg);">Making Earth Greener, One Product at a
+                        Time</h2>
+                    <p style="color: var(--text-light); font-size: 1.125rem; margin-bottom: var(--space-xl);">
+                        Every product on Eco Haat is rated for its eco-friendliness by our expert team.
+                        We verify materials, production processes, and packaging to ensure you're truly
+                        making a sustainable choice.
+                    </p>
+
+                    <div class="flex" style="gap: 2rem; flex-wrap: wrap;">
+                        <div>
+                            <div class="hero__stat-value" style="font-size: 3rem;">50K+</div>
+                            <div class="hero__stat-label">Kg Plastic Saved</div>
+                        </div>
+                        <div>
+                            <div class="hero__stat-value" style="font-size: 3rem;">100+</div>
+                            <div class="hero__stat-label">Local Artisans</div>
+                        </div>
+                        <div>
+                            <div class="hero__stat-value" style="font-size: 3rem;">95%</div>
+                            <div class="hero__stat-label">Avg Eco Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animate-on-scroll delay-2">
+                    <div class="card"
+                        style="background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); padding: 2rem;">
+                        <h4 style="color: white; margin-bottom: 1rem;">🌿 Our Eco Rating System</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+                            Products are rated 0-100% based on:
+                        </p>
+                        <ul style="color: var(--text-light); display: flex; flex-direction: column; gap: 0.75rem;">
+                            <li>✓ Material sustainability</li>
+                            <li>✓ Biodegradability</li>
+                            <li>✓ Production impact</li>
+                            <li>✓ Packaging eco-friendliness</li>
+                            <li>✓ Carbon footprint</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container text-center">
+            <h2 class="animate-on-scroll">Ready to Go Green?</h2>
+            <p class="animate-on-scroll delay-1"
+                style="max-width: 600px; margin: var(--space-lg) auto var(--space-xl); color: var(--text-muted);">
+                Join thousands of conscious consumers and eco-friendly sellers.
+                Start your sustainable journey today!
+            </p>
+            <div class="flex-center" style="gap: var(--space-md); flex-wrap: wrap;">
+                <a href="pages/register.html" class="btn btn-primary btn-lg animate-on-scroll delay-2">
+                    Start Shopping
+                </a>
+                <a href="pages/register.html?role=seller" class="btn btn-secondary btn-lg animate-on-scroll delay-3">
+                    Sell Your Products
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <div class="footer__logo">
+                        <img src="assets/images/logo.png" alt="Eco Haat" class="footer__logo-img">
+                        <img src="assets/images/logo-bn.png" alt="ইকো হাট" class="footer__logo-bn">
+                    </div>
+                    <p class="footer__description">
+                        Your trusted marketplace for sustainable, eco-friendly products.
+                        Together, we're building a greener future.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Facebook">📘</a>
+                        <a href="#" class="footer__social-link" aria-label="Instagram">📷</a>
+                        <a href="#" class="footer__social-link" aria-label="Twitter">🐦</a>
+                        <a href="#" class="footer__social-link" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="footer__title">Quick Links</h5>
+                    <ul class="footer__links">
+                        <li><a href="pages/products.html" class="footer__link">All Products</a></li>
+                        <li><a href="#categories" class="footer__link">Categories</a></li>
+                        <li><a href="#about" class="footer__link">About Us</a></li>
+                        <li><a href="#" class="footer__link">How It Works</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="footer__title">For Sellers</h5>
+                    <ul class="footer__links">
+                        <li><a href="pages/register.html?role=seller" class="footer__link">Become a Seller</a></li>
+                        <li><a href="#" class="footer__link">Seller Guidelines</a></li>
+                        <li><a href="#" class="footer__link">Eco Certification</a></li>
+                        <li><a href="#" class="footer__link">Seller Support</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="footer__title">Support</h5>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Help Center</a></li>
+                        <li><a href="#" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#" class="footer__link">Returns Policy</a></li>
+                        <li><a href="#" class="footer__link">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2024 Eco Haat. All rights reserved. Made with 💚 for the planet.
+                </p>
+                <div class="footer__links" style="flex-direction: row; gap: var(--space-lg);">
+                    <a href="#" class="footer__link">Privacy Policy</a>
+                    <a href="#" class="footer__link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Render floating leaves
+            const heroBg = document.getElementById('heroBg');
+            if (heroBg) {
+                Utils.renderFloatingLeaves(heroBg);
+            }
+
+            // Animate counters when in view
+            const counters = document.querySelectorAll('.counter');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.target);
+                        Utils.animateCounter(entry.target, target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            counters.forEach(counter => observer.observe(counter));
+
+            // Check authentication status
+            const user = API.getUser();
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const userDropdown = document.getElementById('userDropdown');
+            const userName = document.getElementById('userName');
+            const dashboardLink = document.getElementById('dashboardLink');
+
+            if (user) {
+                loginBtn?.classList.add('hidden');
+                registerBtn?.classList.add('hidden');
+                userDropdown?.classList.remove('hidden');
+
+                if (userName) userName.textContent = user.full_name || user.email;
+
+                // Set dashboard link based on role
+                if (dashboardLink) {
+                    const dashboardUrls = {
+                        admin: 'admin/index.html',
+                        seller: 'seller/index.html',
+                        buyer: 'pages/orders.html'
+                    };
+                    dashboardLink.href = dashboardUrls[user.role] || 'pages/orders.html';
+                }
+
+                // Update cart badge
+                Utils.updateCartBadge();
+            }
+
+            // Logout handler
+            document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+                e.preventDefault();
+                await API.logout();
+                window.location.reload();
+            });
+
+            // Load featured products
+            await loadFeaturedProducts();
+
+            // Category cards navigation
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.dataset.category;
+                    window.location.href = `pages/products.html?category=${category}`;
+                });
+            });
+        });
+
+        // Load featured products
+        async function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            if (!container) return;
+
+            try {
+                const products = await API.getProducts({ page_size: 4 });
+
+                if (products.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center" style="grid-column: 1/-1; padding: 3rem;">
+                            <h4>Coming Soon!</h4>
+                            <p style="color: var(--text-muted);">Our eco-friendly products are being curated. Check back soon!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = products.map(product => Utils.generateProductCard(product)).join('');
+
+                // Add click handlers
+                container.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const productId = card.dataset.productId;
+                        window.location.href = `pages/product-detail.html?id=${productId}`;
+                    });
+                });
+
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                container.innerHTML = `
+                    <div class="text-center" style="grid-column: 1/-1; padding: 3rem;">
+                        <h4>Products Coming Soon!</h4>
+                        <p style="color: var(--text-muted);">Connect your Supabase database to see products.</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>
