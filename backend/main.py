@@ -3,25 +3,42 @@ Eco Haat - FastAPI Main Application
 Eco-friendly E-commerce Platform Backend
 """
 import os
+import sys
+
+# Add backend directory to Python path for Vercel
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import init_supabase, DEBUG
-from routes import (
-    auth_router, 
-    products_router, 
-    admin_router, 
-    cart_router, 
-    orders_router
-)
 
-# Initialize FastAPI app
+# Try to import from same directory (Vercel) or relative path
+try:
+    from config import init_supabase, DEBUG
+    from routes import (
+        auth_router, 
+        products_router, 
+        admin_router, 
+        cart_router, 
+        orders_router
+    )
+except ImportError:
+    from backend.config import init_supabase, DEBUG
+    from backend.routes import (
+        auth_router, 
+        products_router, 
+        admin_router, 
+        cart_router, 
+        orders_router
+    )
+
+# Initialize FastAPI app with /api prefix for Vercel
 app = FastAPI(
     title="Eco Haat API",
     description="Backend API for Eco Haat - An eco-friendly e-commerce marketplace for biodegradable products",
     version="1.0.0",
     docs_url="/docs" if DEBUG else None,
     redoc_url="/redoc" if DEBUG else None,
-    root_path=os.getenv("ROOT_PATH", "")
+    root_path="/api"
 )
 
 # CORS configuration
@@ -32,7 +49,7 @@ app.add_middleware(
         "http://localhost:5500",
         "http://127.0.0.1:5500",
         "http://localhost:8080",
-        "*"  # Remove in production
+        "*"  # Allow all origins for Vercel deployment
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -74,6 +91,14 @@ async def health_check():
         "database": "connected",
         "api": "operational"
     }
+
+
+# Mangum handler for Vercel serverless
+try:
+    from mangum import Mangum
+    handler = Mangum(app)
+except ImportError:
+    handler = None
 
 
 if __name__ == "__main__":
