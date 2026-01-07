@@ -36,6 +36,34 @@ An eco-friendly e-commerce marketplace where sellers list biodegradable products
 
 ```
 Eco_Haat/
+├── index.html               # Landing page (ROOT for GitHub Pages)
+├── css/
+│   ├── main.css             # Core styles
+│   └── animations.css       # Premium animations
+├── js/
+│   ├── config.js            # API configuration
+│   ├── api.js               # API helper
+│   └── utils.js             # Utility functions
+├── pages/
+│   ├── login.html
+│   ├── register.html
+│   ├── products.html
+│   ├── product-detail.html
+│   ├── cart.html
+│   └── checkout.html
+├── seller/
+│   ├── index.html           # Seller dashboard
+│   ├── add-product.html     # Add product form
+│   ├── my-products.html     # My products
+│   └── orders.html          # Seller orders
+├── admin/
+│   ├── index.html           # Admin dashboard
+│   ├── products.html        # Product moderation
+│   ├── all-products.html    # All products
+│   ├── categories.html      # Category management
+│   ├── users.html           # User management
+│   └── orders.html          # Order management
+├── assets/                  # Images and static assets
 ├── backend/
 │   ├── main.py              # FastAPI entry point
 │   ├── config.py            # Supabase configuration
@@ -47,29 +75,8 @@ Eco_Haat/
 │       ├── admin.py         # Admin operations
 │       ├── cart.py          # Shopping cart
 │       └── orders.py        # Order management
-├── database/
-│   └── schema.sql           # Supabase database schema
-└── frontend/
-    ├── index.html           # Landing page
-    ├── css/
-    │   ├── main.css         # Core styles
-    │   └── animations.css   # Premium animations
-    ├── js/
-    │   ├── config.js        # API configuration
-    │   ├── api.js           # API helper
-    │   └── utils.js         # Utility functions
-    ├── pages/
-    │   ├── login.html
-    │   ├── register.html
-    │   ├── products.html
-    │   ├── product-detail.html
-    │   ├── cart.html
-    │   └── checkout.html
-    ├── seller/
-    │   ├── index.html       # Seller dashboard
-    │   └── add-product.html # Add product form
-    └── admin/
-        └── index.html       # Admin dashboard
+└── database/
+    └── schema.sql           # Supabase database schema
 ```
 
 ## 🔧 Setup Instructions
@@ -111,7 +118,7 @@ API docs at `http://localhost:8000/docs`
 
 ### 4. Configure Frontend
 
-Edit `frontend/js/config.js` and update:
+Edit `js/config.js` and update:
 ```javascript
 SUPABASE_URL: 'your_supabase_url',
 SUPABASE_ANON_KEY: 'your_supabase_anon_key',
@@ -119,11 +126,10 @@ SUPABASE_ANON_KEY: 'your_supabase_anon_key',
 
 ### 5. Run Frontend
 
-Open `frontend/index.html` in a browser, or use a local server:
+Open `index.html` in a browser, or use a local server:
 
 ```bash
-# Option 1: Python server
-cd frontend
+# Option 1: Python server (from project root)
 python -m http.server 5500
 
 # Option 2: Live Server (VS Code extension)
