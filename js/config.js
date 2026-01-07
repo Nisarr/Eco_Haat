@@ -4,8 +4,10 @@
  */
 
 const CONFIG = {
-    // API Base URL - Change this to your deployed backend URL
-    API_BASE_URL: 'http://localhost:8000',
+    // API Base URL - Auto-detects local vs production
+    API_BASE_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? 'http://localhost:8000'
+        : '/api',
 
     // Supabase Configuration (for direct client-side auth if needed)
     SUPABASE_URL: 'https://lsmvnvdmqdyuijucvaar.supabase.co',

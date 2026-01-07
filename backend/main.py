@@ -2,6 +2,7 @@
 Eco Haat - FastAPI Main Application
 Eco-friendly E-commerce Platform Backend
 """
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import init_supabase, DEBUG
@@ -19,7 +20,8 @@ app = FastAPI(
     description="Backend API for Eco Haat - An eco-friendly e-commerce marketplace for biodegradable products",
     version="1.0.0",
     docs_url="/docs" if DEBUG else None,
-    redoc_url="/redoc" if DEBUG else None
+    redoc_url="/redoc" if DEBUG else None,
+    root_path=os.getenv("ROOT_PATH", "")
 )
 
 # CORS configuration
