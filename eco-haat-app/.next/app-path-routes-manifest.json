@@ -1,0 +1,16 @@
+{
+  "/(auth)/login/page": "/login",
+  "/(auth)/register/page": "/register",
+  "/(shop)/cart/page": "/cart",
+  "/(shop)/products/[id]/page": "/products/[id]",
+  "/(shop)/products/page": "/products",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/admin/products/page": "/admin/products",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/seller/page": "/seller",
+  "/seller/products/new/page": "/seller/products/new",
+  "/seller/products/page": "/seller/products"
+}

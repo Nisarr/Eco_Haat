@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Haat - Sustainable Marketplace</title>
+    <meta http-equiv="refresh" content="0; url=./eco-haat-app/">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%);
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .loader {
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 2s ease-in-out infinite;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            opacity: 0.8;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            margin: 1.5rem auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="logo">🌿</div>
+        <h1>Eco Haat</h1>
+        <p>Loading sustainable marketplace...</p>
+        <div class="spinner"></div>
+    </div>
+    <script>
+        // Fallback redirect if meta refresh doesn't work
+        setTimeout(function() {
+            window.location.href = './eco-haat-app/';
+        }, 100);
+    </script>
+</body>
+</html>

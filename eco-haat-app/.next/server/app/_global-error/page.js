@@ -1,0 +1,11 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_global-error/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__b9356576._.js")
+R.c("server/chunks/ssr/_a0f45c9c._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_52462d4b._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__ddbe7936._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__6b057281._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_81959fb0._.js")
+R.c("server/chunks/ssr/eco-haat-app_app_f36731ac._.js")
+R.c("server/chunks/ssr/eco-haat-app__next-internal_server_app__global-error_page_actions_4268cd84.js")
+R.m(6247)
+module.exports=R.m(6247).exports
